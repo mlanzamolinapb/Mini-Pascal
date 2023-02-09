@@ -1,0 +1,5 @@
+program ciclos; 
+begin
+{ comment }
+ x:=5;
+end.
