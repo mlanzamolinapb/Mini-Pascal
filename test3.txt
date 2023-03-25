@@ -1,0 +1,23 @@
+program prueba;
+Var id:Integer;
+q
+q
+q
+q
+q
+q
+Procedure prod1 (numero: Integ)
+begin
+id:= 3;
+end
+
+Procedure prod2 (numero: Integ)
+begin
+id:= 5;
+end.
+
+
+Function f (numero: Integer): Integer
+begin
+id:= 5;
+end;
