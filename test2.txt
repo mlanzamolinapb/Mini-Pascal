@@ -3,4 +3,4 @@ num:Integer;;
 
 begin
 num:= 5;;
-end.
+end .

@@ -1,20 +1,23 @@
 program ciclos;
-caracter := 'r';
+Var declaracion: INTEGER;
+{caracter := 'r';}
 {
 
 esto es un comment
 
 
 {otro comment}
-arr:=[4,5,6];{comment
+{comment
 entre
 lineas}begin
-x:=5*5+6*8;
 y:=10;
+
+booleano:=false;
 z:=33;
-y:='y';
-str:="string";
+l:='f';
 end
 begin
-p:=82;
+array arr[10];
+writeln("Please enter your name:");
+readln(name);
 end.
