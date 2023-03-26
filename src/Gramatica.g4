@@ -43,9 +43,10 @@ program: begin statement end;
 initVars : assign_statement* | var ;
 var     : 'Var' ID PUNTOS type SEMICOLON | ID PUNTOS STRING LLAVE_ABR INTEGER LLAVE_CIERRA |
 begin (decl)* end
-|ID PUNTOS type SEMICOLON SEMICOLON {notifyErrorListeners("Error de Comillas");}
-|ID PUNTOS SEMICOLON  {notifyErrorListeners("Especifique el tipo");}
-|ID type SEMICOLON{notifyErrorListeners("No se encontraron los puntos");};
+| ID PUNTOS type SEMICOLON {notifyErrorListeners("Falta palabra Var");}
+|'Var' ID PUNTOS type SEMICOLON SEMICOLON {notifyErrorListeners("Error de Comillas");}
+|'Var'ID PUNTOS SEMICOLON  {notifyErrorListeners("Especifique el tipo");}
+|'Var'ID type SEMICOLON{notifyErrorListeners("No se encontraron los puntos");};
 assign_statement: ID ':=' expression ';';
 expression :
            | BOOLEAN
@@ -58,7 +59,7 @@ expression :
            | expression '*' expression
            | expression '/' expression
            | '(' expression ')' ;
-type    : (INTEGER | STRING | BOOLEAN | CHAR | NUM | TYPESTRING);
+type    : (NUM| STRING | BOOLEAN | CHAR | NUM | TYPESTRING);
 
 array_declaration : 'array' ID '[' INTEGER ']' ';';
 begin   : 'begin' ;

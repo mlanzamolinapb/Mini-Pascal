@@ -1,6 +1,6 @@
 program hola;
-num:Integer;;
+Var num:INTEGER;
 
 begin
-num:= 5;;
+num:= 5;
 end .
