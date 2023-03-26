@@ -15,6 +15,13 @@ y:=10;
 booleano:=false;
 z:=33;
 l:='f';
+a:=10;
+if ( a < 20 )
+    x:=100;
+else
+    x:= 50;
+
+writeln(x);
 end
 begin
 array arr[10];

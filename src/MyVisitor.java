@@ -1,9 +1,7 @@
 import Parser.GramaticaBaseVisitor;
 import Parser.GramaticaParser;
-import java.util.HashMap;
-import java.util.Map;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class MyVisitor extends  GramaticaBaseVisitor<Object> {
 
@@ -41,7 +39,7 @@ public class MyVisitor extends  GramaticaBaseVisitor<Object> {
             } else {
                 throw new RuntimeException("Undefined variable: " + varName);
             }
-        } else if (ctx.STRING() != null || ctx.BOOLEAN() != null || ctx.CHAR() != null) {
+        } else if (ctx.STRING() != null || ctx.bool_literal() != null || ctx.CHAR() != null) {
             // code for handling strings, booleans, and chars goes here...
             // If the expression is a string, boolean or char, throw an error since we don't support them
             values.expressionValue=0;
@@ -51,8 +49,8 @@ public class MyVisitor extends  GramaticaBaseVisitor<Object> {
                 String varValue = ctx.STRING().getText();
                 values.expressionValue=0;
                 values.valueString=varValue;
-            }else if(ctx.BOOLEAN() != null){
-                String varValue = ctx.BOOLEAN().getText();
+            }else if(ctx.bool_literal() != null){
+                String varValue = ctx.bool_literal().getText();
                 values.expressionValue=0;
                 values.valueString=varValue;
             }

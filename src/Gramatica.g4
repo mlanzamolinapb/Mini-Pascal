@@ -9,9 +9,21 @@ FOR: 'for';
 TO: 'to';
 DO: 'do';
 IF: 'if';
+ELSEIF: 'else if';
+ELSE: 'else';
 LLAVE_ABR: '[';
 LLAVE_CIERRA: ']';
 ASIGNACION : ':=';
+EQUALS: '==';
+NOTEQUALS: '<>';
+GREATER: '>';
+LESS: '<';
+GREATEREQ: '>=';
+LESSEQ: '<=';
+NOT: '!';
+AND: '&&';
+OR: '||';
+THEN: 'then';
 
 INTEGER     : [0-9]+ ;
 NUM: 'INTEGER';
@@ -22,7 +34,7 @@ STRING  : '"' (~["\r\n] | '""')* '"';
 CHAR   : '\'' (~["\r\n] | '\'') '\'' ;
 Whitespace : [ \t\r\n]+ ->skip ;
 COMMENT : '{' ~[\t]* '}' -> skip;
-BOOLEAN: TRUE | FALSE;
+
 TRUE: 'true';
 FALSE: 'false';
 ARRAY   : 'array';
@@ -49,7 +61,7 @@ begin (decl)* end
 |'Var'ID type SEMICOLON{notifyErrorListeners("No se encontraron los puntos");};
 assign_statement: ID ':=' expression ';';
 expression :
-           | BOOLEAN
+           | bool_literal
            | INTEGER
            | ID
            | STRING
@@ -59,7 +71,9 @@ expression :
            | expression '*' expression
            | expression '/' expression
            | '(' expression ')' ;
-type    : (NUM| STRING | BOOLEAN | CHAR | NUM | TYPESTRING);
+
+
+type    : (INTEGER | STRING | bool_literal | CHAR | NUM | TYPESTRING);
 
 array_declaration : 'array' ID '[' INTEGER ']' ';';
 begin   : 'begin' ;
@@ -86,9 +100,27 @@ parametros: ID PUNTOS type | COMILLA ID PUNTOS type parametros
 |ID PUNTOS {notifyErrorListeners("Especificar Tipo");};
 function : FUNCTION ID PAR_ABRE parametros PAR_CIERRA PUNTOS type begin statement end SEMICOLON;
 //eliminate statement left recursion
-statement : assign_statement statement | assign_statement* | for*| writeln_statement*| writeln_statement statement  | readln_statement statement | readln_statement* | array_declaration*| array_declaration statement;
+statement : assign_statement statement | assign_statement* | for*| writeln_statement*| writeln_statement statement  | readln_statement statement | readln_statement* | array_declaration*| array_declaration statement | if_stmt statement | if_stmt*;
 //expression : term ( '+' | '-' | 'or' ) term ;
 //term    : factor ( '*' | '/' | 'and' ) factor ;
 // read and write
+if_stmt: IF PAR_ABRE bool_expr PAR_CIERRA statement (ELSEIF PAR_ABRE bool_expr PAR_CIERRA statement)* (ELSE statement)?;
+bool_comparison: expression (EQUALS|NOTEQUALS|GREATER|LESS|GREATEREQ|LESSEQ) expression;
+bool_expr: bool_term
+         | bool_expr OR bool_term
+         ;
+
+bool_term: bool_factor
+         | bool_term AND bool_factor
+         ;
+
+bool_factor: bool_literal
+           | PAR_ABRE bool_expr PAR_CIERRA
+           | NOT bool_factor
+           | bool_comparison
+           ;
+
+bool_literal: TRUE | FALSE;
+
 
 segundo: ;

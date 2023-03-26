@@ -1,4 +1,3 @@
-package Parser;
 import Parser.GramaticaLexer;
 import Parser.GramaticaParser;
 import org.antlr.v4.runtime.CharStream;
@@ -23,11 +22,6 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-
-
-            // entrada desde un archivo de texto
-
-
             String ruta = "test2.txt";
             System.out.println("");
             GramaticaParser parser = getParser(ruta);
@@ -37,19 +31,15 @@ public class Main {
 
             } else {
 
-
                 ParseTree antlrAST = parser.prule();
 
                 AntlrToProgram progVisitor = new AntlrToProgram();
+
+                MyVisitor visitor = new MyVisitor();
                 program prog = progVisitor.visit(antlrAST);
+                visitor.visit(antlrAST);
 
             }
-
-
-
-
-
-
                 /*f(progVisitor.sintaxError.isEmpty()){
                     ExpressionProcessor ep = progVisitor = new ExpressionProcessor(prog.expressions);
                     for (String eva: ep.getEvaluationResults()){
@@ -60,7 +50,6 @@ public class Main {
                         System.out.println(error);
                     }
                 }*/
-
 
         }catch(
                 Exception e)
