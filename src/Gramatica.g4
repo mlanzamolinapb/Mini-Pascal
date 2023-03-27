@@ -108,8 +108,11 @@ statement : assign_statement statement | assign_statement* | for*| writeln_state
 | array_declaration statement
 | if_stmt statement
 | if_stmt*
-|for*
+| for statement
+| for*
+| while statement
 | while*
+| repeat statement
 | repeat*;
 //expression : term ( '+' | '-' | 'or' ) term ;
 //term    : factor ( '*' | '/' | 'and' ) factor ;
