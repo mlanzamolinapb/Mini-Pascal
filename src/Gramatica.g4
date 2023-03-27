@@ -50,10 +50,11 @@ TIMES: '*';
 DIV: '/';
 // rule
 prule : 'program' ID SEMICOLON initVars (program*) '.' ;
-program: begin statement end;
+program: begin statement end | function | procedure;
 initVars : assign_statement* | var ;
-var     : 'Var' ID PUNTOS type SEMICOLON | ID PUNTOS STRING LLAVE_ABR INTEGER LLAVE_CIERRA |
-begin (decl)* end
+var  : 'Var' ID PUNTOS type SEMICOLON | ID PUNTOS STRING LLAVE_ABR INTEGER LLAVE_CIERRA | 'Var' ID PUNTOS type (',' ID PUNTOS type)* SEMICOLON
+| 'Var' ID (',' ID)*  PUNTOS type SEMICOLON
+(decl)*
 | ID PUNTOS type SEMICOLON {notifyErrorListeners("Falta palabra Var");}
 |'Var' ID PUNTOS type SEMICOLON SEMICOLON {notifyErrorListeners("Error de Comillas");}
 |'Var'ID PUNTOS SEMICOLON  {notifyErrorListeners("Especifique el tipo");}
