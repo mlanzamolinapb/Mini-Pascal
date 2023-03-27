@@ -22,7 +22,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            String ruta = "test2.txt";
+            String ruta = "test4.txt";
             System.out.println("");
             GramaticaParser parser = getParser(ruta);
             GramaticaLexer lexer = getLexer(ruta);
