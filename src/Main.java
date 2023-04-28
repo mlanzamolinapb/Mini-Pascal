@@ -12,17 +12,48 @@ import Expression.*;
 
 import static org.antlr.v4.runtime.CharStreams.fromFileName;
 import static org.antlr.v4.runtime.CharStreams.fromString;
-
-
-
+import javax.swing.*;
 
 
 public class Main {
 
 
     public static void main(String[] args) {
+        // make a grafical interface with a text box and two buttons
+        
+        
+        // Create a new JFrame window
+        JFrame frame = new JFrame("GUI Example");
+
+        // Set the size of the window
+        frame.setSize(300, 200);
+
+        // Create a new JPanel
+        JPanel panel = new JPanel();
+
+        // Create a new JTextField for the text box
+        JTextField textField = new JTextField(20);
+
+        // Add the text box to the panel
+        panel.add(textField);
+
+        // Create two new JButtons for the buttons
+        JButton button1 = new JButton("Button 1");
+        JButton button2 = new JButton("Button 2");
+
+        // Add the buttons to the panel
+        panel.add(button1);
+        panel.add(button2);
+
+        // Add the panel to the frame
+        frame.add(panel);
+
+        // Set the window to be visible
+        frame.setVisible(true);
+
+
         try {
-            String ruta = "test4.txt";
+            String ruta = "test.txt";
             System.out.println("");
             GramaticaParser parser = getParser(ruta);
             GramaticaLexer lexer = getLexer(ruta);
