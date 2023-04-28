@@ -19,38 +19,14 @@ public class Main {
 
 
     public static void main(String[] args) {
-        // make a grafical interface with a text box and two buttons
-        
-        
-        // Create a new JFrame window
-        JFrame frame = new JFrame("GUI Example");
+        // Use invokeLater() to execute the GUI code asynchronously in the EDT
+        SwingUtilities.invokeLater(() -> {
+            // Create an instance of the DarkThemeGUI class
+            DarkThemeGUI darkThemeGUI = new DarkThemeGUI();
 
-        // Set the size of the window
-        frame.setSize(300, 200);
-
-        // Create a new JPanel
-        JPanel panel = new JPanel();
-
-        // Create a new JTextField for the text box
-        JTextField textField = new JTextField(20);
-
-        // Add the text box to the panel
-        panel.add(textField);
-
-        // Create two new JButtons for the buttons
-        JButton button1 = new JButton("Button 1");
-        JButton button2 = new JButton("Button 2");
-
-        // Add the buttons to the panel
-        panel.add(button1);
-        panel.add(button2);
-
-        // Add the panel to the frame
-        frame.add(panel);
-
-        // Set the window to be visible
-        frame.setVisible(true);
-
+            // Set the default close operation for the window
+            darkThemeGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        });
 
         try {
             String ruta = "test.txt";
