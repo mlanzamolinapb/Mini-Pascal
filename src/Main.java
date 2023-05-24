@@ -12,17 +12,24 @@ import Expression.*;
 
 import static org.antlr.v4.runtime.CharStreams.fromFileName;
 import static org.antlr.v4.runtime.CharStreams.fromString;
-
-
-
+import javax.swing.*;
 
 
 public class Main {
 
 
     public static void main(String[] args) {
+        // Use invokeLater() to execute the GUI code asynchronously in the EDT
+        SwingUtilities.invokeLater(() -> {
+            // Create an instance of the DarkThemeGUI class
+            DarkThemeGUI darkThemeGUI = new DarkThemeGUI();
+
+            // Set the default close operation for the window
+            darkThemeGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        });
+
         try {
-            String ruta = "test4.txt";
+            String ruta = "test.txt";
             System.out.println("");
             GramaticaParser parser = getParser(ruta);
             GramaticaLexer lexer = getLexer(ruta);
