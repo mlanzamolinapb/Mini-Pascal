@@ -1,23 +1,18 @@
 program prueba;
-Var id:Integer;
-q
-q
-q
-q
-q
-q
-Procedure prod1 (numero: Integ)
+Var id:INTEGER;
+
+procedure prod1 (numero: INTEGER)
 begin
 id:= 3;
 end
 
-Procedure prod2 (numero: Integ)
+procedure prod2 (numero: INTEGER)
 begin
 id:= 5;
 end.
 
 
-Function f (numero: Integer): Integer
+function f (numero: Integer): INTEGER
 begin
 id:= 5;
 end;

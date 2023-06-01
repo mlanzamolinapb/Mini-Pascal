@@ -1,6 +1,11 @@
 program hola;
-num:Integer;;
+Var num:INTEGER;
 
 begin
-num:= 5;;
-end.
+num:= 50;
+if(num <> 100)
+    writeln("entre al if");
+writeln("ingrese su nombre");
+readln(name);
+
+end .

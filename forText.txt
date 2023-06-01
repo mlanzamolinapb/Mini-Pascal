@@ -1,0 +1,11 @@
+program Text;
+Var num : Integer;
+
+begin
+num := 5;
+
+for 5 to 10 do
+begin
+id := 4;
+end;
+end.

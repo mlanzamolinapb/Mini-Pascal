@@ -1,0 +1,24 @@
+program ciclos;
+{declaramos las variables}
+Var lenght,i,j,x,y,cont:INTEGER;
+
+function f(id: INTEGER):INTEGER
+begin
+f := 3;
+end;
+
+begin
+{iniciamos las variables}
+lenght := 50;
+x := 10;
+y := 5;
+cont := 1;
+{llenamos el arreglo bidimensional}
+begin
+{reiniciamos el contador}
+cont := 1;
+{reiniciamos el contador}
+cont := 1;
+{imprimimos el arreglo unidimensional}
+writeln("Gracias por usar Pascal!");
+end.

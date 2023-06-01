@@ -1,20 +1,36 @@
 program ciclos;
-caracter := 'r';
+Var declaracion: INTEGER;
+
+function f(id: INTEGER):INTEGER
+
+{caracter := 'r';}
 {
 
 esto es un comment
 
 
 {otro comment}
-arr:=[4,5,6];{comment
+{comment
 entre
 lineas}begin
-x:=5*5+6*8;
-y:=10;
+y:=5;
+
+booleano:=false;
 z:=33;
-y:='y';
-str:="string";
-end
+l:='f';
+a:=10;
+suma:=a*z;
+writeln("la suma es: ");
+writeln(suma);
+if ( a < 20 )
+    x:=100;
+else
+    x:= 50;
+
+writeln(x);
+end;
 begin
-p:=82;
+array arr[10];
+writeln("Please enter your name:");
+readln(name);
 end.
