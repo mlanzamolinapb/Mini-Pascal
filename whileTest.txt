@@ -1,0 +1,16 @@
+program Text;
+Var num2 : Integer;
+
+begin
+num := 5;
+num2 := 6;
+
+writeln("HOLA");
+readln(name);
+
+while (num > num2) do
+begin
+id:=4;
+
+end;
+end.

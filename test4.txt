@@ -1,9 +1,19 @@
 program hola;
+Var declaracion : INTEGER;
 Var num:INTEGER;
 
 begin
 while (1 > 5) do
 begin
+
+writeln("HOLA");
+readln(name);
+
+for a to 5 do
+begin
+id:= 2;
+
+
 writeln("HOLA");
 for 1 to 5 do
 begin

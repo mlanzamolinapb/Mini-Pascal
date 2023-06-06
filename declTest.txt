@@ -1,0 +1,4 @@
+program Text;
+Var num2, cont, cont3, num2 : Integer;
+begin
+end.
