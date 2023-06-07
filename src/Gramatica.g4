@@ -1,5 +1,8 @@
 grammar Gramatica;
 
+
+
+
 PROCEDURE: 'procedure';
 FUNCTION: 'function';
 SEMICOLON:  ';';
@@ -30,7 +33,7 @@ REPEAT: 'repeat';
 UNTIL: 'until';
 
 INTEGER     : [0-9]+ ;
-NUM: 'INTEGER';
+NUM: 'Integer';
 TYPESTRING: 'STRING';
 STRING  : '"' (~["\r\n] | '""')* '"';
 //if single quotes just allow 1 char
@@ -51,7 +54,7 @@ DIV: '/';
 // rule
 prule : 'program' ID SEMICOLON initVars (program*) '.' ;
 program: begin statement end | function | procedure;
-initVars : assign_statement* | var ;
+initVars : assign_statement* | var | var*;
 var  : 'Var' ID PUNTOS type SEMICOLON | ID PUNTOS STRING LLAVE_ABR INTEGER LLAVE_CIERRA | 'Var' ID PUNTOS type (',' ID PUNTOS type)* SEMICOLON
 | 'Var' ID (',' ID)*  PUNTOS type SEMICOLON
 (decl)*
@@ -77,63 +80,43 @@ begin   : 'begin' ;
 end     : 'end' ;
 writeln_statement: 'writeln' '(' (STRING | ID) ')' ';' ;
 readln_statement: 'readln' '(' ID ')' ';' ;
-
-decl:  ID ASIGNACION INTEGER SEMICOLON
-| ID ASIGNACION ID SEMICOLON
+decl:  ID ASIGNACION INTEGER SEMICOLON | ID ASIGNACION ID SEMICOLON
 | ID ASIGNACION INTEGER SEMICOLON SEMICOLON {notifyErrorListeners("Error de Comillas");}
-| ID ASIGNACION INTEGER {notifyErrorListeners("Error de Comillas");}
-| ID INTEGER SEMICOLON {notifyErrorListeners("Falta Token Asignacion");}
-| ID ASIGNACION SEMICOLON {notifyErrorListeners("Falta valor a Asignacion");};
-
+| ID INTEGER SEMICOLON {notifyErrorListeners("Falta Token Asignacion");};
 procedure: PROCEDURE ID PAR_ABRE parametros PAR_CIERRA begin statement end '.'
 | PROCEDURE ID SEMICOLON begin statement end
-| PROCEDURE PAR_ABRE parametros PAR_CIERRA begin statement end {notifyErrorListeners("Falto ID");}
-| PROCEDURE SEMICOLON begin statement end {notifyErrorListeners("Falto ID");}
-| PROCEDURE ID parametros {notifyErrorListeners("Falto comillas");}
-| PROCEDURE ID parametros PAR_CIERRA begin statement end {notifyErrorListeners("Falto Parentesis");}
-| PROCEDURE ID PAR_ABRE parametros begin statement end {notifyErrorListeners("Falto Parentesis");};
+| PROCEDURE ID parametros {notifyErrorListeners("Falto comillas");};
+for: FOR INTEGER TO INTEGER DO begin statement end SEMICOLON | FOR ID TO ID DO begin statement end SEMICOLON
+| FOR INTEGER TO ID DO begin statement end SEMICOLON
 
-for: FOR INTEGER TO INTEGER DO begin statement end SEMICOLON
-|FOR ID TO ID DO begin statement end SEMICOLON
+| FOR ID ASIGNACION INTEGER TO INTEGER DO begin statement end SEMICOLON
+| FOR ID ASIGNACION INTEGER TO ID DO begin statement end SEMICOLON
+| FOR ID ASIGNACION ID TO ID DO begin statement end SEMICOLON
+| FOR ID ASIGNACION ID TO ID ASIGNACION INTEGER DO begin statement end SEMICOLON
+| FOR ID ASIGNACION ID TO ID ASIGNACION ID DO begin statement end SEMICOLON   //for 1 to 5 do
+                                                                              // for num to num2 do
+
+
+
+//Manejo de errores
+| FOR ID ASIGNACION TO INTEGER DO begin statement end SEMICOLON {notifyErrorListeners("Se espera un valor");}
 |FOR TO ID DO begin statement end SEMICOLON {notifyErrorListeners("Falto valor");}
 |FOR ID TO DO begin statement end SEMICOLON {notifyErrorListeners("Falto valor");}
-|FOR ID ID DO begin statement end SEMICOLON {notifyErrorListeners("Falto palabra reservada");}
-|FOR ID TO ID  begin statement end SEMICOLON {notifyErrorListeners("Falto palabra reservada");}
+|FOR ID  ID DO begin statement end SEMICOLON {notifyErrorListeners("Falto palabra reservada");}
+| FOR ID TO ID  begin statement end SEMICOLON {notifyErrorListeners("Falto palabra reservada");}
 |FOR ID TO ID  statement end SEMICOLON {notifyErrorListeners("Falto Begin");}
-|FOR ID TO ID  statement end {notifyErrorListeners("Falto Semicolon");}
-|FOR ID TO ID  begin statement SEMICOLON {notifyErrorListeners("Falto End");};
+|FOR ID TO ID  begin statement  SEMICOLON {notifyErrorListeners("Falto End");};
+parametros: ID PUNTOS type | COMILLA ID PUNTOS type parametros
+| ID type {notifyErrorListeners("Falto :");}
+|ID PUNTOS {notifyErrorListeners("Especificar Tipo");};
+function : FUNCTION ID PAR_ABRE parametros PAR_CIERRA PUNTOS type begin statement end SEMICOLON;
+//nombreFuncion := nombreVariable
 
-parametros: ID PUNTOS type
-|COMILLA ID PUNTOS type parametros
-|ID type {notifyErrorListeners("Falto :");}
-|ID PUNTOS {notifyErrorListeners("Falta Tipo");}
-|COMILLA PUNTOS type parametros {notifyErrorListeners("Falta identificador");}
-|COMILLA ID type parametros {notifyErrorListeners("Falta puntos");};
-
-function : FUNCTION ID PAR_ABRE parametros PAR_CIERRA PUNTOS type begin statement end SEMICOLON
-| FUNCTION PAR_ABRE parametros PAR_CIERRA PUNTOS type begin statement end SEMICOLON {notifyErrorListeners("Falta Identificador");}
-| FUNCTION ID parametros PAR_CIERRA PUNTOS type begin statement end SEMICOLON {notifyErrorListeners("Falta Parentesis");}
-| FUNCTION ID PAR_ABRE parametros PUNTOS type begin statement end SEMICOLON {notifyErrorListeners("Falta Parentesis");}
-| FUNCTION ID PAR_ABRE parametros PAR_CIERRA type begin statement end SEMICOLON {notifyErrorListeners("Falta Puntos");}
-| FUNCTION ID PAR_ABRE parametros PAR_CIERRA PUNTOS type begin statement end {notifyErrorListeners("Falta Semicolon");};
-
-while : WHILE PAR_ABRE INTEGER bool_expr INTEGER PAR_CIERRA DO begin statement end SEMICOLON
-|WHILE PAR_ABRE ID bool_expr ID PAR_CIERRA DO begin statement end SEMICOLON
-|WHILE PAR_ABRE bool_expr ID PAR_CIERRA DO begin statement end SEMICOLON {notifyErrorListeners("Falta Identificador");}
-|WHILE PAR_ABRE ID bool_expr PAR_CIERRA DO begin statement end SEMICOLON {notifyErrorListeners("Falta Identificador");}
-|WHILE PAR_ABRE ID bool_expr ID PAR_CIERRA DO begin statement end SEMICOLON {notifyErrorListeners("Falta Identificador");}
-|WHILE ID bool_expr ID PAR_CIERRA DO begin statement end SEMICOLON {notifyErrorListeners("Falta Parentesis");}
-|WHILE PAR_ABRE ID bool_expr ID DO begin statement end SEMICOLON {notifyErrorListeners("Falta Parentesis");}
-|WHILE PAR_ABRE ID bool_expr ID PAR_CIERRA begin statement end SEMICOLON {notifyErrorListeners("Falta Enunciado DO");}
-|WHILE PAR_ABRE ID bool_expr ID PAR_CIERRA DO begin statement end {notifyErrorListeners("Falta Semicolon");};
+while: WHILE PAR_ABRE INTEGER bool_expr INTEGER PAR_CIERRA DO begin statement end SEMICOLON
+|WHILE PAR_ABRE ID bool_expr ID PAR_CIERRA DO begin statement end SEMICOLON;
 
 repeat: REPEAT statement UNTIL INTEGER bool_expr INTEGER SEMICOLON
-|REPEAT statement UNTIL ID bool_expr ID SEMICOLON
-|REPEAT statement UNTIL ID bool_expr ID SEMICOLON {notifyErrorListeners("Falta Semicolon");}
-|REPEAT statement ID bool_expr ID SEMICOLON {notifyErrorListeners("Falta Unitl");}
-|REPEAT statement UNTIL bool_expr ID SEMICOLON {notifyErrorListeners("Falta Identificador");}
-|REPEAT statement UNTIL ID bool_expr SEMICOLON {notifyErrorListeners("Falta Identificador");}
-|REPEAT statement UNTIL ID bool_expr ID {notifyErrorListeners("Falta Semicolon");};
+|REPEAT statement UNTIL ID bool_expr ID SEMICOLON;
 
 //eliminate statement left recursion
 statement : assign_statement statement | assign_statement* | for*| writeln_statement*| writeln_statement statement  | readln_statement statement
