@@ -101,7 +101,12 @@ for: FOR INTEGER TO INTEGER DO begin statement end SEMICOLON
 |FOR ID TO ID  begin statement end SEMICOLON {notifyErrorListeners("Falto palabra reservada");}
 |FOR ID TO ID  statement end SEMICOLON {notifyErrorListeners("Falto Begin");}
 |FOR ID TO ID  statement end {notifyErrorListeners("Falto Semicolon");}
-|FOR ID TO ID  begin statement SEMICOLON {notifyErrorListeners("Falto End");};
+|FOR ID TO ID  begin statement SEMICOLON {notifyErrorListeners("Falto End");}
+|FOR ID ASIGNACION INTEGER TO INTEGER DO begin statement end SEMICOLON
+|FOR ID ASIGNACION INTEGER TO ID DO begin statement end SEMICOLON
+|FOR ID ASIGNACION ID TO ID DO begin statement end SEMICOLON
+|FOR ID ASIGNACION ID TO ID ASIGNACION INTEGER DO begin statement end SEMICOLON
+|FOR ID ASIGNACION ID TO ID ASIGNACION ID DO begin statement end SEMICOLON;
 
 parametros: ID PUNTOS type
 |COMILLA ID PUNTOS type parametros
