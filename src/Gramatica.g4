@@ -51,7 +51,7 @@ DIV: '/';
 // rule
 prule : 'program' ID SEMICOLON initVars (program*) '.' ;
 program: begin statement end | function | procedure;
-initVars : assign_statement* | var ;
+initVars : assign_statement* | var | var* ;
 var  : 'Var' ID PUNTOS type SEMICOLON | ID PUNTOS STRING LLAVE_ABR INTEGER LLAVE_CIERRA | 'Var' ID PUNTOS type (',' ID PUNTOS type)* SEMICOLON
 | 'Var' ID (',' ID)*  PUNTOS type SEMICOLON
 (decl)*
@@ -60,6 +60,7 @@ var  : 'Var' ID PUNTOS type SEMICOLON | ID PUNTOS STRING LLAVE_ABR INTEGER LLAVE
 |'Var'ID PUNTOS SEMICOLON  {notifyErrorListeners("Especifique el tipo");}
 |'Var'ID type SEMICOLON{notifyErrorListeners("No se encontraron los puntos");};
 assign_statement: ID ':=' expression ';';
+
 expression :
            | bool_literal
            | INTEGER
@@ -71,6 +72,7 @@ expression :
            | expression '*' expression
            | expression '/' expression
            | '(' expression ')' ;
+
 type    : (INTEGER | STRING | bool_literal | CHAR | NUM | TYPESTRING);
 array_declaration : 'array' ID '[' INTEGER ']' ';';
 begin   : 'begin' ;
@@ -157,20 +159,20 @@ statement : assign_statement statement | assign_statement* | for*| writeln_state
 //term    : factor ( '*' | '/' | 'and' ) factor ;
 // read and write
 if_stmt: IF PAR_ABRE bool_expr PAR_CIERRA statement (ELSEIF PAR_ABRE bool_expr PAR_CIERRA statement)* (ELSE statement)?;
+
 bool_comparison: expression (EQUALS|NOTEQUALS|GREATER|LESS|GREATEREQ|LESSEQ) expression;
+
 bool_expr: bool_term
-         | bool_expr OR bool_term
-         ;
+         | bool_expr OR bool_term;
+
 bool_term: bool_factor
-         | bool_term AND bool_factor
-         ;
+         | bool_term AND bool_factor;
+
 bool_factor: bool_literal
            | PAR_ABRE bool_expr PAR_CIERRA
            | NOT bool_factor
-           | bool_comparison
-           ;
+           | bool_comparison;
+
 bool_literal: TRUE | FALSE;
-
-
 
 segundo: ;

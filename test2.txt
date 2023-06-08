@@ -1,11 +1,19 @@
 program hola;
 Var num:INTEGER;
+Var hola1:INTEGER;
+Var hola2:INTEGER;
 
 begin
 num:= 50;
-if(num <> 100)
-    writeln("entre al if");
-writeln("ingrese su nombre");
-readln(name);
-
+num1:= 1;
+num2:= 2;
+num3:= 3;
+if(num1 == 2 )
+    writeln("num1 = a 1");
+else if(num2 == 2)
+    writeln("num2 es igual a 2");
+else if(num3 == 2)
+    writeln("num3 es igual a 3");
+else
+    writeln("validacion no valida");
 end .
