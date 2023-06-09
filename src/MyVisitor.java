@@ -450,15 +450,7 @@ public class MyVisitor extends  GramaticaBaseVisitor<Object> {
                 }
             }
 
-            if(ctx.ID(0)!=null){
-                if(ctx.ASIGNACION(0)!=null){
-                    if(ctx.ID(1)!=null){
-                        int variableControl = Integer.parseInt(ctx.INTEGER(0).getText());
-                        System.out.println("Control"+ variableControl);
-                    }
-                }
 
-            }
 
 
 
