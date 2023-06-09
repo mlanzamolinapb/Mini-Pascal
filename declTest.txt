@@ -1,4 +1,14 @@
 program Text;
-Var num2, cont, cont3, num2 : Integer;
+Var cont2, cont, num : Integer;
+Var cad : STRING;
+
 begin
+readln(hola);
+
+num := 5;
+cont := 8;
+qwer := "";
+readln(hola);
+
+
 end.

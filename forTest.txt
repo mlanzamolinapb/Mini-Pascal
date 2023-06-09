@@ -4,13 +4,15 @@ Var num : Integer;
 begin
 
 num2 := 6;
+num := 4;
 
 writeln("HOLA");
 readln(name);
 
-for num to num2 do
+for num3 := 1 to num2 do
 begin
 id := 4;
+num := num + 1;
 readln(id);
 end;
 end.
