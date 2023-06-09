@@ -8,6 +8,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+
     <orderEntry type="module-library" exported="" scope="TEST">
       <library>
         <CLASSES>
@@ -36,6 +37,8 @@
         <SOURCES />
       </library>
     </orderEntry>
+
+
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
@@ -54,5 +57,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+
   </component>
 </module>

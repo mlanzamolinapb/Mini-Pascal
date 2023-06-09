@@ -1,8 +1,8 @@
 program Text;
 Var num2 : Integer;
-
+Var num : Integer;
 begin
-num := 5;
+
 num2 := 6;
 
 writeln("HOLA");

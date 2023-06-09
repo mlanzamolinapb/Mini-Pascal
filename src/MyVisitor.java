@@ -148,17 +148,20 @@ public class MyVisitor extends GramaticaBaseVisitor<Object>
     public String visitReadln_statement(GramaticaParser.Readln_statementContext ctx) {
 
         String id = ctx.ID().getText();
+
         Scanner scanner = new Scanner(System.in);
+
         String input = scanner.nextLine();
         System.out.println("You entered: " + input + id);
 
         symbolTable.put(id, input);
+
         System.out.println("Symbol table in hashmap");
         for (String key : symbolTable.keySet()) {
             Object value = symbolTable.get(key);
             System.out.println(key + " = " + value);
         }
-        return input;
+        return null;
     }
 
     @Override
@@ -166,6 +169,22 @@ public class MyVisitor extends GramaticaBaseVisitor<Object>
         // Retrieve the variable name and expression from the parse tree
         String varName = ctx.ID().getText();
         TwoValues exprValue = evaluateExpression(ctx.expression());
+        Token idToken = null;
+
+        String variable = ctx.ID().getText();
+        String expressionType = visit(ctx.expression()).toString();
+
+
+        if (symbolTable.containsKey(variable)) {
+            String variableType = symbolTable.get(variable).toString();
+            if (!variableType.equals(expressionType)) {
+                System.err.println("Error de tipo: La asignación de " + variable + " es incompatible con el tipo " + expressionType);
+            }
+        } else if(!symbolTable.containsKey(variable)){
+            System.err.println("Error de declaracion: La variable " + variable + " no esta declarada " );
+        }else{
+            symbolTable.put(variable, expressionType);
+        }
 
         // Store the value in the symbol table
         if (exprValue.placeInTable) {
@@ -189,6 +208,26 @@ public class MyVisitor extends GramaticaBaseVisitor<Object>
             String id2 = ctx.ID(i).getText();
             name = ctx.ID(0).getText();
 
+
+
+
+
+
+
+
+
+        return null;
+    }
+
+    @Override
+    public Object visitExpression(GramaticaParser.ExpressionContext ctx) {
+        if (ctx.INTEGER() != null) {
+            return "Integer";
+        } else if (ctx.CHAR() != null) {
+            return "CHAR";
+        } else if (ctx.STRING() != null) {
+            return "STRING";
+
             if (name.equals(id2)) {
                 idToken = ctx.ID(i).getSymbol();
                 String nombre = idToken.getText();
@@ -199,10 +238,73 @@ public class MyVisitor extends GramaticaBaseVisitor<Object>
             } else if (!name.equals(id2)) {
                 symbolTable.put(id2, null);
             }
+
         }
         return null;
     }
 
+
+    public List<String> encontrarElementosRepetidos(List<String> lista) {
+        List<String> elementosRepetidos = new ArrayList<>();
+        Set<String> elementosUnicos = new HashSet<>();
+
+        for (int i = 0; i < lista.size(); i++) {
+            String elementoActual = lista.get(i);
+            if (!elementosUnicos.add(elementoActual) && !elementosRepetidos.contains(elementoActual)) {
+                elementosRepetidos.add(elementoActual);
+            }
+        }
+
+        return elementosRepetidos;
+    }
+
+
+
+
+
+    @Override
+    public Object visitVar(GramaticaParser.VarContext ctx) {
+        String text = ctx.getText();
+        String id = ctx.ID(0).getText();
+        Token idToken = null;
+        String name ="";
+        ArrayList<String> vars = new ArrayList<>();
+
+
+
+        try {
+            for(int i =0; i<ctx.ID().size();i++){
+                vars.add(ctx.ID(i).getText());
+            }
+
+            List<String> elementos = encontrarElementosRepetidos(vars);
+
+
+            for(int i =0; i<ctx.ID().size();i++){
+                for(int j =0; j<elementos.size();j++) {
+
+                    if (elementos.get(j).toString() !=null) {
+                        if (ctx.ID(i).getText().equals(elementos.get(j))) {
+
+
+
+                            idToken = ctx.ID(i).getSymbol();
+                            String Token = idToken.getText();
+                            int line = idToken.getLine();
+                            int column = idToken.getCharPositionInLine() + 1;
+                            erroresSemanticos.add("Error: Variable " + Token + " en la linea: " + line + "columna " + column + "la variable esta repetida");
+                            System.out.println("Error: Variable " + Token + " en la linea: " + line + " columna " + column + " la variable esta repetida");
+                        }
+                    }
+                }
+
+            }
+
+            for(int i=0; i<ctx.ID().size();i++){
+
+                for(int j=0; j<ctx.type().size() ; j++){
+                    symbolTable.put(ctx.ID(i).getText(), ctx.type(j).getText());
+=======
     @Override
     public Object visitDecl(GramaticaParser.DeclContext ctx) {
         return super.visitDecl(ctx);
@@ -293,9 +395,314 @@ public class MyVisitor extends GramaticaBaseVisitor<Object>
                     int column = idToken.getCharPositionInLine() + 1;
                     erroresSemanticos.add("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta inicializada");
                     System.out.println("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta inicializada");
+
                 }
             }
 
+
+
+
+
+
+
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+
+        return null;
+    }
+
+    @Override
+    public Object visitDecl(GramaticaParser.DeclContext ctx) {
+        String tipo="";
+        String valor ="";
+        String nombreVariable ="";
+
+        System.out.println("ENTRO A DECL");
+
+
+
+
+        return null;
+    }
+
+    public static boolean isInteger(String variable) {
+        try {
+            Integer.parseInt(variable);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+
+
+    @Override
+    public Object visitFor(GramaticaParser.ForContext ctx) {
+        Token idToken = null;
+        int valorInicial = 0;
+        int valorFinal = 0;
+
+
+
+        try {
+
+            ctx.ID(0);
+
+            if(ctx.INTEGER(0)!= null){
+
+                if (!isInteger(ctx.INTEGER(0).getText())) {
+                    idToken = ctx.ID(0).getSymbol();
+                    int line = idToken.getLine();
+                    int column = idToken.getCharPositionInLine() + 1;
+                    erroresSemanticos.add("Error: Variable" + idToken + "en la linea: " + line + "columna " + column + "la variable debe ser un Integer");
+                    System.out.println("Error for");
+
+                }
+            }else if (ctx.ID(0).toString() == null){
+                erroresSemanticos.add("Error: Variable, Se esperaba Integer");
+                System.out.println("Se esperaba integer");
+            }
+
+            if(ctx.INTEGER(1)!= null){
+
+
+                if (!isInteger(ctx.INTEGER(1).getText())) {
+                    idToken = ctx.ID(1).getSymbol();
+                    String nombre = idToken.getText();
+                    int line = idToken.getLine();
+                    int column = idToken.getCharPositionInLine() + 1;
+                    erroresSemanticos.add("Error: Variable " + nombre + " en la linea: " + line + "columna " + column + "la variable debe ser un Integer");
+                    System.out.println("Error for");
+
+                }
+
+            }else if (ctx.ID(1).toString() == null){
+                erroresSemanticos.add("Error: Se esperaba Integer");
+                System.out.println("Se esperaba integer");
+            }
+
+
+            if (!symbolTable.containsKey(ctx.ID(0).getText())) {
+
+                idToken = ctx.ID(0).getSymbol();
+                String nombre = idToken.getText();
+                int line = idToken.getLine();
+                int column = idToken.getCharPositionInLine() + 1;
+                erroresSemanticos.add("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta declarada");
+                System.out.println("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta declarada");
+
+
+            }
+
+
+
+            if (!symbolTable.containsKey(ctx.ID(1).getText())) {
+                idToken = ctx.ID(1).getSymbol();
+                String nombre = idToken.getText();
+                int line = idToken.getLine();
+                int column = idToken.getCharPositionInLine() + 1;
+                erroresSemanticos.add("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta declarada");
+                System.out.println("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta declarada");
+            }
+
+          /*  if(symbolTable.containsKey(ctx.ID(0).getText())) {
+                if (symbolTable.get(ctx.ID(0).getText()) != null) {
+                    if (isInteger(symbolTable.get(ctx.ID(0)).toString())) {
+                        idToken = ctx.ID(0).getSymbol();
+                        String nombre = idToken.getText();
+                        int line = idToken.getLine();
+                        int column = idToken.getCharPositionInLine() + 1;
+                        erroresSemanticos.add("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta inicializada");
+                        System.out.println("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta inicializada");
+                    }
+                }
+            }*/
+
+
+            if(ctx.ID(0).getText()!=null) {
+                if (symbolTable.get(ctx.ID(0).getText()) == null) {
+                    idToken = ctx.ID(0).getSymbol();
+                    String nombre = idToken.getText();
+                    int line = idToken.getLine();
+                    int column = idToken.getCharPositionInLine() + 1;
+                    erroresSemanticos.add("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta inicializada");
+                    System.out.println("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta inicializada");
+
+                }
+            }
+
+
+
+
+            if(ctx.INTEGER(0)!=null) {
+                if (ctx.INTEGER(0).getText() != null) {
+                    Token variableControl = ctx.INTEGER(0).getSymbol();
+                    GramaticaParser.StatementContext paso = ctx.statement();
+                    String varControl = variableControl.getText();
+
+                    if (paso.getText().equals(varControl + " " + ":=" + " " + varControl + " " + "+" + " " + "1")) {
+                        int variableInicial = Integer.parseInt(variableControl.getText());
+                        System.out.println(variableInicial);
+
+                    }
+
+
+                }
+            }
+
+            if (ctx.ID(0).getText()!=null) {
+
+                Token variableControl = ctx.ID(0).getSymbol();
+                GramaticaParser.StatementContext paso = ctx.statement();
+
+                String varControl = variableControl.getText();
+                String cad = varControl + ":=" + varControl + "+" + "1" +";".replace(" ", "");
+
+                if (paso.getText().equals(cad)) {
+                    int variableInicial = Integer.parseInt(variableControl.getText());
+                    System.out.println("Entro AQUI");
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+        return null;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Override
+    public Object visitWhile(GramaticaParser.WhileContext ctx) {
+        Token idToken = null;
+        if(ctx.INTEGER(0)!=null){
+            if(!isInteger(ctx.INTEGER(0).getText())){
+                idToken = ctx.ID(0).getSymbol();
+                String nombre = idToken.getText();
+                int line = idToken.getLine();
+                int column = idToken.getCharPositionInLine() + 1;
+                erroresSemanticos.add("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable debe de ser un integer ");
+                System.out.println("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable debe de ser un integer");
+
+            }
+        }
+
+        if(ctx.INTEGER(1)!=null){
+            if(!isInteger(ctx.INTEGER(1).getText())){
+                idToken = ctx.ID(1).getSymbol();
+                String nombre = idToken.getText();
+                int line = idToken.getLine();
+                int column = idToken.getCharPositionInLine() + 1;
+                erroresSemanticos.add("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable debe de ser un integer ");
+                System.out.println("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable debe de ser un integer");
+
+            }
+        }
+
+        if (!symbolTable.containsKey(ctx.ID(0).getText())) {
+
+            idToken = ctx.ID(0).getSymbol();
+            String nombre = idToken.getText();
+            int line = idToken.getLine();
+            int column = idToken.getCharPositionInLine() + 1;
+            erroresSemanticos.add("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta declarada");
+            System.out.println("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta declarada");
+
+
+        }
+
+        if (!symbolTable.containsKey(ctx.ID(1).getText())) {
+
+            idToken = ctx.ID(1).getSymbol();
+            String nombre = idToken.getText();
+            int line = idToken.getLine();
+            int column = idToken.getCharPositionInLine() + 1;
+            erroresSemanticos.add("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta declarada");
+            System.out.println("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta declarada");
+
+
+        }
+
+
+        if (ctx.ID(0).getText()!=null){
+            System.out.println("Entro");
+            Token variableControl = ctx.ID(0).getSymbol();
+            GramaticaParser.StatementContext paso = ctx.statement();
+            String varControl = variableControl.getText();
+            String tokens = paso.getText();
+            String array[] = tokens.split(";");
+            String cad = varControl + " " + ":=" + " "  + varControl + " " + "+" + " " + "1" ;
+            cad = cad.replace(" ", "");
+            //int control = control +1;
+            System.out.println(cad);
+
+
+            for(int i =0; i<array.length;i++){
+
+                if(array[i].equals(cad)){
+                    int variableInicial =Integer.parseInt(symbolTable.get(ctx.ID(0)).toString());
+                    System.out.println("Control" + variableInicial);
+
+                }
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+        return null;
+    }
+
+    @Override
+    public Object visitIf_stmt(GramaticaParser.If_stmtContext ctx) {
+
+
+
+        return null;
+    }
+}
 
             if (ctx.INTEGER(0) != null) {
                 if (ctx.INTEGER(0).getText() != null) {
@@ -513,6 +920,7 @@ public class MyVisitor extends GramaticaBaseVisitor<Object>
     }
 
 }
+
 
 
 
