@@ -124,11 +124,7 @@ function : FUNCTION ID PAR_ABRE parametros PAR_CIERRA PUNTOS type begin statemen
 | FUNCTION ID PAR_ABRE parametros PAR_CIERRA type begin statement end SEMICOLON {notifyErrorListeners("Falta Puntos");}
 | FUNCTION ID PAR_ABRE parametros PAR_CIERRA PUNTOS type begin statement end {notifyErrorListeners("Falta Semicolon");};
 
-while : WHILE PAR_ABRE INTEGER bool_expr INTEGER PAR_CIERRA DO begin statement end SEMICOLON
-|WHILE PAR_ABRE ID bool_expr ID PAR_CIERRA DO begin statement end SEMICOLON
-|WHILE PAR_ABRE bool_expr ID PAR_CIERRA DO begin statement end SEMICOLON {notifyErrorListeners("Falta Identificador");}
-|WHILE PAR_ABRE ID bool_expr PAR_CIERRA DO begin statement end SEMICOLON {notifyErrorListeners("Falta Identificador");}
-|WHILE PAR_ABRE ID bool_expr ID PAR_CIERRA DO begin statement end SEMICOLON {notifyErrorListeners("Falta Identificador");}
+while : WHILE PAR_ABRE bool_expr PAR_CIERRA DO begin statement end SEMICOLON
 |WHILE ID bool_expr ID PAR_CIERRA DO begin statement end SEMICOLON {notifyErrorListeners("Falta Parentesis");}
 |WHILE PAR_ABRE ID bool_expr ID DO begin statement end SEMICOLON {notifyErrorListeners("Falta Parentesis");}
 |WHILE PAR_ABRE ID bool_expr ID PAR_CIERRA begin statement end SEMICOLON {notifyErrorListeners("Falta Enunciado DO");}
