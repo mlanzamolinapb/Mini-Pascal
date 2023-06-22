@@ -745,88 +745,15 @@ public class MyVisitor extends GramaticaBaseVisitor<Object>
         return null;
     }
 
-
     @Override
     public Object visitWhile(GramaticaParser.WhileContext ctx) {
-        Token idToken = null;
-        if (ctx.INTEGER(0) != null) {
-            if (!isInteger(ctx.INTEGER(0).getText())) {
-                idToken = ctx.ID(0).getSymbol();
-                String nombre = idToken.getText();
-                int line = idToken.getLine();
-                int column = idToken.getCharPositionInLine() + 1;
-                erroresSemanticos.add("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable debe de ser un integer ");
-                System.out.println("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable debe de ser un integer");
-            }
-        }
-
-        if (ctx.INTEGER(1) != null) {
-            if (!isInteger(ctx.INTEGER(1).getText())) {
-                idToken = ctx.ID(1).getSymbol();
-                String nombre = idToken.getText();
-                int line = idToken.getLine();
-                int column = idToken.getCharPositionInLine() + 1;
-                erroresSemanticos.add("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable debe de ser un integer ");
-                System.out.println("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable debe de ser un integer");
-            }
-        }
-
-        if (!symbolTable.containsKey(ctx.ID(0).getText())) {
-            idToken = ctx.ID(0).getSymbol();
-            String nombre = idToken.getText();
-            int line = idToken.getLine();
-            int column = idToken.getCharPositionInLine() + 1;
-            erroresSemanticos.add("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta declarada");
-            System.out.println("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta declarada");
-        }
-
-        if (!symbolTable.containsKey(ctx.ID(1).getText())) {
-            idToken = ctx.ID(1).getSymbol();
-            String nombre = idToken.getText();
-            int line = idToken.getLine();
-            int column = idToken.getCharPositionInLine() + 1;
-            erroresSemanticos.add("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta declarada");
-            System.out.println("Error: Variable " + nombre + " en la linea: " + line + " columna " + column + " la variable no esta declarada");
-        }
-
-        if (ctx.INTEGER(0).getText() != null) {
-            Token variableControl = ctx.INTEGER(0).getSymbol();
-            GramaticaParser.StatementContext paso = ctx.statement();
-            String varControl = variableControl.getText();
-            //int control = control +1;
-            if (paso.getText().equals(varControl + " " + ":=" + " " + varControl + " " + "+" + " " + "1")) {
-                int variableInicial = Integer.parseInt(variableControl.getText());
-            }
-        }
-
-        if (ctx.INTEGER(1).getText() != null) {
-            Token variableControl = ctx.INTEGER(1).getSymbol();
-            GramaticaParser.StatementContext paso = ctx.statement();
-            String varControl = variableControl.getText();
-
-            if (paso.getText().equals(varControl + " " + ":=" + " " + varControl + " " + "+" + " " + "1")) {
-                int variableInicial = Integer.parseInt(variableControl.getText());
-            }
-        }
-
-        if (ctx.ID(0).getText() != null) {
-            Token variableControl = ctx.INTEGER(0).getSymbol();
-            GramaticaParser.StatementContext paso = ctx.statement();
-            String varControl = variableControl.getText();
-
-            if (paso.getText().equals(varControl + " " + ":=" + " " + varControl + " " + "+" + " " + "1")) {
-                int variableInicial = Integer.parseInt(variableControl.getText());
-            }
-        }
-
-        if (ctx.ID(1).getText() != null) {
-            Token variableControl = ctx.INTEGER(1).getSymbol();
-            GramaticaParser.StatementContext paso = ctx.statement();
-            String varControl = variableControl.getText();
-
-            if (paso.getText().equals(varControl + " " + ":=" + " " + varControl + " " + "+" + " " + "1")) {
-                int variableInicial = Integer.parseInt(variableControl.getText());
-            }
+        boolean condition = evalBool_expr(ctx.bool_expr());
+        var left = ctx.bool_expr().bool_term().bool_factor().bool_comparison().expression(0);
+        var right = ctx.bool_expr().bool_term().bool_factor().bool_comparison().expression(1);
+        System.out.println("left: " + left + " right: " + right);
+        if (condition){
+            visit(ctx.statement());
+            return null;
         }
         return null;
     }
