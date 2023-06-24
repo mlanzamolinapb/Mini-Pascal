@@ -51,7 +51,7 @@ DIV: '/';
 // rule
 prule : 'program' ID SEMICOLON initVars (program*) '.' ;
 program: begin statement end | function | procedure;
-initVars : assign_statement* | var ;
+initVars : assign_statement* | var | var* ;
 var  : 'Var' ID PUNTOS type SEMICOLON | ID PUNTOS STRING LLAVE_ABR INTEGER LLAVE_CIERRA | 'Var' ID PUNTOS type (',' ID PUNTOS type)* SEMICOLON
 | 'Var' ID (',' ID)*  PUNTOS type SEMICOLON
 (decl)*
