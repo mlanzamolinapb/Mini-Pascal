@@ -339,6 +339,48 @@ public class MyVisitor extends GramaticaBaseVisitor<Object>
     }
 
     @Override
+    public Object visitFunction(GramaticaParser.FunctionContext ctx) {
+        String functionName = ctx.ID().getText(); // Obtener el nombre de la función
+        List<String> parameterList = new ArrayList<>(); // Lista para almacenar los parámetros
+
+        // Obtener los parámetros de la regla "parametros"
+        GramaticaParser.ParametrosContext parametrosContext = ctx.parametros();
+//        System.out.println(parametrosContext.getText().toString());
+        if (parametrosContext != null) {
+            List<GramaticaParser.ParametrosContext> parametroContextList = parametrosContext.parametros();
+
+
+//            for (GramaticaParser.ParametrosContext parametroContext : parametroContextList) {
+//                String parameterName = parametroContext.ID().getText(); // Obtener el nombre del parámetro
+//                System.out.println(parameterName);
+//                System.out.println(parametroContextList.size());
+//                parameterList.add(parameterName);
+//            }
+        }
+
+        String returnType = ctx.type().getText(); // Obtener el tipo de retorno de la función
+
+        // Verificar si la función tiene un bloque de código "begin statement end"
+        GramaticaParser.BeginContext beginContext = ctx.begin();
+        GramaticaParser.StatementContext statementContext = ctx.statement();
+        if (beginContext != null && statementContext != null) {
+            // Aquí puedes realizar acciones semánticas adicionales, como verificar la validez de los parámetros, el tipo de retorno, etc.
+            // También puedes generar el código intermedio correspondiente para la función.
+            // En este ejemplo, simplemente imprimiremos información sobre la función.
+
+            System.out.println("Function: " + functionName);
+            System.out.println("Parameters: " + parameterList);
+            System.out.println("Return Type: " + returnType);
+
+            return null;
+        } else {
+            // Si falta el bloque de código "begin statement end", puedes lanzar una excepción o mostrar un mensaje de error.
+            System.err.println("Error: Missing 'begin statement end' block for function: " + functionName);
+            return null;
+        }
+    }
+
+    @Override
     public Object visitWhile(GramaticaParser.WhileContext ctx) {
         boolean condition = evalBool_expr(ctx.bool_expr());
         var left = ctx.bool_expr().bool_term().bool_factor().bool_comparison().expression(0);

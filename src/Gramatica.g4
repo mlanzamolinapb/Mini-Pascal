@@ -110,8 +110,7 @@ for: FOR INTEGER TO INTEGER DO begin statement end SEMICOLON
 |FOR ID ASIGNACION ID TO ID ASIGNACION INTEGER DO begin statement end SEMICOLON
 |FOR ID ASIGNACION ID TO ID ASIGNACION ID DO begin statement end SEMICOLON;
 
-parametros: ID PUNTOS type
-|COMILLA ID PUNTOS type parametros
+parametros: ID PUNTOS type (COMILLA parametros)*
 |ID type {notifyErrorListeners("Falto :");}
 |ID PUNTOS {notifyErrorListeners("Falta Tipo");}
 |COMILLA PUNTOS type parametros {notifyErrorListeners("Falta identificador");}

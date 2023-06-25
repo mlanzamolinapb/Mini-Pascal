@@ -1,18 +1,8 @@
 program prueba;
 Var id:INTEGER;
 
-procedure prod1 (numero: INTEGER)
-begin
-id:= 3;
-end
-
-procedure prod2 (numero: INTEGER)
-begin
-id:= 5;
-end.
-
-
-function f (numero: Integer): INTEGER
+function far (numero: INTEGER, num2: INTEGER, num3: INTEGER): INTEGER
 begin
 id:= 5;
 end;
+.

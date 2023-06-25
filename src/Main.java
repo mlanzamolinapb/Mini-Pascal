@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            String ruta = "whileTest.txt";
+            String ruta = "test3.txt";
             GramaticaParser parser = getParser(ruta);
             GramaticaLexer lexer = getLexer(ruta);
             if (MyErrorListener.hasError) {
