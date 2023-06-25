@@ -41,7 +41,6 @@ public class Main {
                     File archivoSeleccionado = fileChooser.getSelectedFile();
                     // Aquí puedes hacer algo con el archivo seleccionado
                     System.out.println("Archivo seleccionado: " + archivoSeleccionado.getAbsolutePath());
-
                     try {
                         GramaticaParser parser = getParser(archivoSeleccionado.getPath().toString());
                         GramaticaLexer lexer = getLexer(archivoSeleccionado.getPath().toString());

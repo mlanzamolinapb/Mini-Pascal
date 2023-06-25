@@ -1,11 +1,9 @@
 program Text;
-
+Var num : INTEGER;
+Var id : INTEGER;
 begin
-num := 5;
 
-while (num > 0) do
-begin
-id:=4;
+num := 4 ;
+id := 0 ;
 
-end;
 end.
