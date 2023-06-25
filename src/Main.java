@@ -20,6 +20,15 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // Use invokeLater() to execute the GUI code asynchronously in the EDT
+//        SwingUtilities.invokeLater(() -> {
+//            // Create an instance of the DarkThemeGUI class
+//            DarkThemeGUI darkThemeGUI = new DarkThemeGUI();
+//
+//            // Set the default close operation for the window
+//            darkThemeGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        });
+
         try {
             String ruta = "whileTest.txt";
             GramaticaParser parser = getParser(ruta);

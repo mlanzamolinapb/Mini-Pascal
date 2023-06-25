@@ -102,7 +102,6 @@ public class MyVisitor extends GramaticaBaseVisitor<Object>
         }
         return values;
     }
-
     //    public int evaluateArray(GramaticaParser.ArrayContext ctx) {
 //        String arrayName = ctx.ID().getText();
 //        Integer[] array = (Integer[]) symbolTable.get(arrayName);
@@ -143,7 +142,6 @@ public class MyVisitor extends GramaticaBaseVisitor<Object>
         return null;
     }
 
-
     @Override
     public String visitReadln_statement(GramaticaParser.Readln_statementContext ctx) {
 
@@ -154,8 +152,9 @@ public class MyVisitor extends GramaticaBaseVisitor<Object>
         String input = scanner.nextLine();
         System.out.println("You entered: " + input + id);
 
-        symbolTable.put(id, input);
+        //symbolTable.put(id, input);
 
+        symbolTable.put(id,input);
         System.out.println("Symbol table in hashmap");
         for (String key : symbolTable.keySet()) {
             Object value = symbolTable.get(key);
@@ -304,7 +303,7 @@ public class MyVisitor extends GramaticaBaseVisitor<Object>
 
                 for(int j=0; j<ctx.type().size() ; j++){
                     symbolTable.put(ctx.ID(i).getText(), ctx.type(j).getText());
-=======
+
     @Override
     public Object visitDecl(GramaticaParser.DeclContext ctx) {
         return super.visitDecl(ctx);
@@ -851,3 +850,39 @@ public class MyVisitor extends GramaticaBaseVisitor<Object>
 
 
 
+    @Override
+    public Object visitVar(GramaticaParser.VarContext ctx) {
+        String text = ctx.getText();
+        String tipo = ctx.type(0).getText();
+        String id = ctx.ID(0).getText();
+
+        String[] parts = text.split(":");
+
+        String variableBeforeColon = parts[0].trim();
+        String variableAfterColon = parts[1].trim();
+        symbolTable.put(id, tipo);
+
+        return null;
+    }
+
+    public static boolean isInteger(String variable) {
+        try {         Integer.parseInt(variable);         return true;     }
+        catch (NumberFormatException e)
+        {         return false;     } }
+
+    @Override
+    public Object visitFor(GramaticaParser.ForContext ctx) {
+
+
+        if(!isInteger(ctx.INTEGER(0).getText()) | !isInteger(ctx.INTEGER(1).getText())){
+            System.out.println("For requiere numero");
+            return null;
+        }
+
+
+
+
+
+        return null;
+    }
+}
