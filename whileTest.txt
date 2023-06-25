@@ -1,0 +1,11 @@
+program Text;
+
+begin
+num := 5;
+
+while (num > 0) do
+begin
+id:=4;
+
+end;
+end.

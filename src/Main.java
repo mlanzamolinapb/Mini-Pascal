@@ -1,3 +1,4 @@
+import Parser.*;
 import Parser.GramaticaLexer;
 import Parser.GramaticaParser;
 import org.antlr.v4.runtime.CharStream;
@@ -14,11 +15,11 @@ import static org.antlr.v4.runtime.CharStreams.fromFileName;
 import static org.antlr.v4.runtime.CharStreams.fromString;
 import javax.swing.*;
 
-
 public class Main {
 
 
     public static void main(String[] args) {
+
         // Use invokeLater() to execute the GUI code asynchronously in the EDT
 //        SwingUtilities.invokeLater(() -> {
 //            // Create an instance of the DarkThemeGUI class
@@ -29,8 +30,7 @@ public class Main {
 //        });
 
         try {
-            String ruta = "test.txt";
-            System.out.println("");
+            String ruta = "whileTest.txt";
             GramaticaParser parser = getParser(ruta);
             GramaticaLexer lexer = getLexer(ruta);
             if (MyErrorListener.hasError) {
