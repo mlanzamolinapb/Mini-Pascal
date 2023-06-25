@@ -3,6 +3,8 @@ import Parser.GramaticaParser;
 import Parser.*;
 import org.antlr.v4.runtime.Token;
 
+
+
 import java.util.*;
 
 public class MyVisitor extends GramaticaBaseVisitor<Object>
@@ -395,6 +397,7 @@ public class MyVisitor extends GramaticaBaseVisitor<Object>
 
     @Override
     public Object visitIf_stmt(GramaticaParser.If_stmtContext ctx) {
+
         boolean condition = evalBool_expr(ctx.bool_expr(0));
         boolean executedElseif = false;
 

@@ -14,56 +14,70 @@ import Expression.*;
 import static org.antlr.v4.runtime.CharStreams.fromFileName;
 import static org.antlr.v4.runtime.CharStreams.fromString;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 public class Main {
-
-
     public static void main(String[] args) {
 
-        try {
-            String ruta = "test3.txt";
-            GramaticaParser parser = getParser(ruta);
-            GramaticaLexer lexer = getLexer(ruta);
-            if (MyErrorListener.hasError) {
-                System.out.println("Errores Encontrados");
+        // Crear una ventana
+        JFrame ventana = new JFrame("Mi pantalla generada");
+        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventana.setSize(400, 300);
 
-            } else {
+        // Crear un panel
+        JPanel panel = new JPanel();
 
-                ParseTree antlrAST = parser.prule();
+        // Crear un botón para seleccionar archivo
+        JButton botonSeleccionar = new JButton("Seleccionar archivo");
+        botonSeleccionar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Mostrar un diálogo de selección de archivo
+                JFileChooser fileChooser = new JFileChooser();
+                int resultado = fileChooser.showOpenDialog(ventana);
+                if (resultado == JFileChooser.APPROVE_OPTION) {
+                    File archivoSeleccionado = fileChooser.getSelectedFile();
+                    // Aquí puedes hacer algo con el archivo seleccionado
+                    System.out.println("Archivo seleccionado: " + archivoSeleccionado.getAbsolutePath());
 
-                AntlrToProgram progVisitor = new AntlrToProgram();
+                    try {
+                        GramaticaParser parser = getParser(archivoSeleccionado.getPath().toString());
+                        GramaticaLexer lexer = getLexer(archivoSeleccionado.getPath().toString());
+                        if (MyErrorListener.hasError) {
+                            System.out.println("Errores Encontrados");
+                        } else {
+                            ParseTree antlrAST = parser.prule();
+                            AntlrToProgram progVisitor = new AntlrToProgram();
+                            MyVisitor visitor = new MyVisitor();
+                            program prog = progVisitor.visit(antlrAST);
+                            visitor.visit(antlrAST);
 
-                MyVisitor visitor = new MyVisitor();
-                program prog = progVisitor.visit(antlrAST);
-                visitor.visit(antlrAST);
+                        }
+                    }catch(Exception exception)
+                    {
+                        exception.printStackTrace();
+                    }
 
+                }
             }
-                /*f(progVisitor.sintaxError.isEmpty()){
-                    ExpressionProcessor ep = progVisitor = new ExpressionProcessor(prog.expressions);
-                    for (String eva: ep.getEvaluationResults()){
-                        System.out.println(eva);
-                    }
-                }else{
-                    for (String error: progVisitor.sintaxError){
-                        System.out.println(error);
-                    }
-                }*/
+        });
 
-        }catch(
-                Exception e)
+        // Agregar el botón al panel
+        panel.add(botonSeleccionar);
 
-        {
-            e.printStackTrace();
-        }
+        // Agregar el panel a la ventana
+        ventana.add(panel);
 
+        // Mostrar la ventana
+        ventana.setVisible(true);
     }
-
 
 
     private static GramaticaParser getParser(String filename){
         GramaticaParser parser = null;
         try {
-
             CharStream input = fromFileName(filename);
             GramaticaLexer lexer = new GramaticaLexer(input);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -87,23 +101,17 @@ public class Main {
         GramaticaLexer lexer = null;
 
         try {
-
             CharStream input = fromFileName(filename);
             lexer = new GramaticaLexer(input);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-
             //Manejo de errores
             lexer.removeErrorListeners();
             lexer.addErrorListener(new MyErrorListener());
-
-
 
         } catch (IOException e){
             e.printStackTrace();
         }
         return lexer;
     }
-
-
 }
