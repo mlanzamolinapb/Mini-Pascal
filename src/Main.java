@@ -17,6 +17,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
@@ -52,7 +54,16 @@ public class Main {
                             MyVisitor visitor = new MyVisitor();
                             program prog = progVisitor.visit(antlrAST);
                             visitor.visit(antlrAST);
-
+                            String llvmCode = visitor.getLLVMCode();
+                            System.out.println("LLVM code:\n" + llvmCode);
+                            //generar .ll de llvmCode
+                            try (FileWriter fileWriter = new FileWriter("codigoIntermedio.ll")) {
+                                fileWriter.write(visitor.getLLVMCode());
+                                System.out.println("LLVM code has been written to the file 'codigoIntermedio.ll'.");
+                            } catch (IOException e1) {
+                                System.out.println("An error occurred while writing the LLVM code to the file.");
+                                e1.printStackTrace();
+                            }
                         }
                     }catch(Exception exception)
                     {

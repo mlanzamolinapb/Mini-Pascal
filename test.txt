@@ -1,10 +1,14 @@
 program ciclos;
 Var declaracion: INTEGER;
-
-function f(id: INTEGER):INTEGER
+Var y: INTEGER;
+Var z: INTEGER;
+Var l: INTEGER;
+Var a: INTEGER;
+Var suma: INTEGER;
+Var x: INTEGER;
+Var booleano: false;
 
 {caracter := 'r';}
-{
 
 esto es un comment
 
@@ -15,7 +19,7 @@ entre
 lineas}begin
 y:=5;
 
-booleano:=false;
+booleano:=true;
 z:=33;
 l:='f';
 a:=10;
@@ -28,9 +32,8 @@ else
     x:= 50;
 
 writeln(x);
-end;
+end
 begin
-array arr[10];
 writeln("Please enter your name:");
 readln(name);
 end.
