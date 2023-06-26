@@ -1,6 +1,6 @@
 program Text;
-Var num2 : Integer;
-Var num : Integer;
+Var num2 : INTEGER;
+Var num : INTEGER;
 begin
 
 num2 := 6;
@@ -9,7 +9,7 @@ num := 4;
 writeln("HOLA");
 readln(name);
 
-for num3 := 1 to num2 do
+for 1 to 9 do
 begin
 id := 4;
 num := num + 1;

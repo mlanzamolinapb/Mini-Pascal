@@ -16,7 +16,7 @@
         <PerGrammarGenerationSettings>
           <option name="fileName" value="$PROJECT_DIR$/src/Gramatica.g4" />
           <option name="autoGen" value="true" />
-          <option name="outputDir" value="C:\Users\marco\IdeaProjects\HelloWorld\src" />
+          <option name="outputDir" value="C:\Users\Gabriel Alvarado\Desktop\pascal\Mini-Pascal\src" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="Parser" />

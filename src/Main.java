@@ -29,7 +29,7 @@ public class Main {
         });
 
         try {
-            String ruta = "test.txt";
+            String ruta = "forTest.txt";
             System.out.println("");
             GramaticaParser parser = getParser(ruta);
             GramaticaLexer lexer = getLexer(ruta);

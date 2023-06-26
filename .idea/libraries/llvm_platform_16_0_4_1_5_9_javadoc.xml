@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="llvm-platform-16.0.4-1.5.9-javadoc">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/Downloads/llvm-platform-16.0.4-1.5.9-javadoc.jar!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Downloads/llvm-platform-16.0.4-1.5.9-javadoc.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/Downloads/llvm-platform-16.0.4-1.5.9-javadoc.jar!/" />
+    </JAVADOC>
+    <NATIVE>
+      <root url="jar://$USER_HOME$/Downloads/llvm-platform-16.0.4-1.5.9-javadoc.jar!/" />
+    </NATIVE>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Downloads/llvm-platform-16.0.4-1.5.9-javadoc.jar!/" />
+    </SOURCES>
+    <jarDirectory url="jar://$USER_HOME$/Downloads/llvm-platform-16.0.4-1.5.9-javadoc.jar!/" recursive="false" />
+    <jarDirectory url="jar://$USER_HOME$/Downloads/llvm-platform-16.0.4-1.5.9-javadoc.jar!/" recursive="false" type="SOURCES" />
+  </library>
+</component>

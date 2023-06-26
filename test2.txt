@@ -2,7 +2,7 @@ program hola;
 Var num:INTEGER;
 
 begin
-num:= 50;
+num:= 'a';
 if(num <> 100)
     writeln("entre al if");
 writeln("ingrese su nombre");

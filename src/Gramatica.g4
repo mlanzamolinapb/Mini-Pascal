@@ -51,7 +51,7 @@ DIV: '/';
 // rule
 prule : 'program' ID SEMICOLON initVars (program*) '.' ;
 program: begin statement end | function | procedure;
-initVars : assign_statement* | var ;
+initVars : assign_statement* | var | var* ;
 var  : 'Var' ID PUNTOS type SEMICOLON | ID PUNTOS STRING LLAVE_ABR INTEGER LLAVE_CIERRA | 'Var' ID PUNTOS type (',' ID PUNTOS type)* SEMICOLON
 | 'Var' ID (',' ID)*  PUNTOS type SEMICOLON
 (decl)*
@@ -60,6 +60,7 @@ var  : 'Var' ID PUNTOS type SEMICOLON | ID PUNTOS STRING LLAVE_ABR INTEGER LLAVE
 |'Var'ID PUNTOS SEMICOLON  {notifyErrorListeners("Especifique el tipo");}
 |'Var'ID type SEMICOLON{notifyErrorListeners("No se encontraron los puntos");};
 assign_statement: ID ':=' expression ';';
+
 expression :
            | bool_literal
            | INTEGER
@@ -71,6 +72,7 @@ expression :
            | expression '*' expression
            | expression '/' expression
            | '(' expression ')' ;
+
 type    : (INTEGER | STRING | bool_literal | CHAR | NUM | TYPESTRING);
 array_declaration : 'array' ID '[' INTEGER ']' ';';
 begin   : 'begin' ;
@@ -101,10 +103,14 @@ for: FOR INTEGER TO INTEGER DO begin statement end SEMICOLON
 |FOR ID TO ID  begin statement end SEMICOLON {notifyErrorListeners("Falto palabra reservada");}
 |FOR ID TO ID  statement end SEMICOLON {notifyErrorListeners("Falto Begin");}
 |FOR ID TO ID  statement end {notifyErrorListeners("Falto Semicolon");}
-|FOR ID TO ID  begin statement SEMICOLON {notifyErrorListeners("Falto End");};
+|FOR ID TO ID  begin statement SEMICOLON {notifyErrorListeners("Falto End");}
+|FOR ID ASIGNACION INTEGER TO INTEGER DO begin statement end SEMICOLON
+|FOR ID ASIGNACION INTEGER TO ID DO begin statement end SEMICOLON
+|FOR ID ASIGNACION ID TO ID DO begin statement end SEMICOLON
+|FOR ID ASIGNACION ID TO ID ASIGNACION INTEGER DO begin statement end SEMICOLON
+|FOR ID ASIGNACION ID TO ID ASIGNACION ID DO begin statement end SEMICOLON;
 
-parametros: ID PUNTOS type
-|COMILLA ID PUNTOS type parametros
+parametros: ID PUNTOS type (COMILLA parametros)*
 |ID type {notifyErrorListeners("Falto :");}
 |ID PUNTOS {notifyErrorListeners("Falta Tipo");}
 |COMILLA PUNTOS type parametros {notifyErrorListeners("Falta identificador");}
@@ -117,11 +123,7 @@ function : FUNCTION ID PAR_ABRE parametros PAR_CIERRA PUNTOS type begin statemen
 | FUNCTION ID PAR_ABRE parametros PAR_CIERRA type begin statement end SEMICOLON {notifyErrorListeners("Falta Puntos");}
 | FUNCTION ID PAR_ABRE parametros PAR_CIERRA PUNTOS type begin statement end {notifyErrorListeners("Falta Semicolon");};
 
-while : WHILE PAR_ABRE INTEGER bool_expr INTEGER PAR_CIERRA DO begin statement end SEMICOLON
-|WHILE PAR_ABRE ID bool_expr ID PAR_CIERRA DO begin statement end SEMICOLON
-|WHILE PAR_ABRE bool_expr ID PAR_CIERRA DO begin statement end SEMICOLON {notifyErrorListeners("Falta Identificador");}
-|WHILE PAR_ABRE ID bool_expr PAR_CIERRA DO begin statement end SEMICOLON {notifyErrorListeners("Falta Identificador");}
-|WHILE PAR_ABRE ID bool_expr ID PAR_CIERRA DO begin statement end SEMICOLON {notifyErrorListeners("Falta Identificador");}
+while : WHILE PAR_ABRE bool_expr PAR_CIERRA DO begin statement end SEMICOLON
 |WHILE ID bool_expr ID PAR_CIERRA DO begin statement end SEMICOLON {notifyErrorListeners("Falta Parentesis");}
 |WHILE PAR_ABRE ID bool_expr ID DO begin statement end SEMICOLON {notifyErrorListeners("Falta Parentesis");}
 |WHILE PAR_ABRE ID bool_expr ID PAR_CIERRA begin statement end SEMICOLON {notifyErrorListeners("Falta Enunciado DO");}
@@ -152,20 +154,20 @@ statement : assign_statement statement | assign_statement* | for*| writeln_state
 //term    : factor ( '*' | '/' | 'and' ) factor ;
 // read and write
 if_stmt: IF PAR_ABRE bool_expr PAR_CIERRA statement (ELSEIF PAR_ABRE bool_expr PAR_CIERRA statement)* (ELSE statement)?;
+
 bool_comparison: expression (EQUALS|NOTEQUALS|GREATER|LESS|GREATEREQ|LESSEQ) expression;
+
 bool_expr: bool_term
-         | bool_expr OR bool_term
-         ;
+         | bool_expr OR bool_term;
+
 bool_term: bool_factor
-         | bool_term AND bool_factor
-         ;
+         | bool_term AND bool_factor;
+
 bool_factor: bool_literal
            | PAR_ABRE bool_expr PAR_CIERRA
            | NOT bool_factor
-           | bool_comparison
-           ;
+           | bool_comparison;
+
 bool_literal: TRUE | FALSE;
-
-
 
 segundo: ;
